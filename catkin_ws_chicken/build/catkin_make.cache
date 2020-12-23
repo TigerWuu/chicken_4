@@ -1,2 +1,0 @@
-chicken
--DCATKIN_DEVEL_PREFIX=/home/pi/catkin_ws_chicken/devel -DCMAKE_INSTALL_PREFIX=/home/pi/catkin_ws_chicken/install -G Unix Makefiles
