@@ -1,0 +1,10 @@
+<launch>
+
+  <group ns="chicken">
+    <node pkg="chicken" name="webcame" type="webcame.py"/>
+    <node pkg="chicken" name="brain" type="brain.py"/>
+    <node pkg="chicken" name="arduino_cmd_handler" type="arduino_cmd_handler.py"/>
+    <node pkg="chicken" name="serial_communicate" type="serial_communicate.py"/>
+  </group>
+
+</launch>
