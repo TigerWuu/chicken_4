@@ -5,7 +5,6 @@ from std_msgs.msg import Float32
 
 
 def image_get(image_data):
-    global distance
     center_dist = image_data.data
     center_dist = center_dist.split("," , 2)
     if int(center_dist[0]) > 350:
@@ -20,21 +19,15 @@ def image_get(image_data):
     Body.publish(orientation)
 
 def ultrasound_get(dis_data):
-    global distance
     distance = dis_data.data
-    
-
-def encoder_get(data):
-
-    #Body.pub()
-    pass
+    if distance < 10:
+        orientation = "S"
+        Body.publish(orientation)
 
 
 if __name__ == "__main__":
     rospy.init_node("brain" ,anonymous = True)
-    #Arm = rospy.Publisher("arm_info" , String ,queue_size = 10)
     Body = rospy.Publisher("car_info" , String ,queue_size = 10)
     rospy.Subscriber("image_info" , String , image_get)
     rospy.Subscriber("ultrasound_info" , Float32 , ultrasound_get)
-    #rospy.Subscriber("encoder" , String , encoder_get)
     rospy.spin()

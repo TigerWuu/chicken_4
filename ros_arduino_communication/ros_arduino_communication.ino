@@ -67,13 +67,13 @@ void message_callback( const std_msgs::String& arduino_msg){
     }
 }
 
-ros::Publisher chatter("chatter_tiger", &str_msg);
+ros::Publisher pub("ultrasound_info", &str_msg);
 ros::Subscriber<std_msgs::String> sub("arduino_msg", &message_callback);
 
 void setup()
 {
   tiger.initNode();
-  tiger.advertise(chatter);
+  tiger.advertise(pub);
   tiger.subscribe(sub);
 
   //servo setup
@@ -103,7 +103,7 @@ void loop()
   distance = (duration/2)/29;
   
   str_msg.data = distance;
-  chatter.publish(&str_msg);
+  pub.publish(&str_msg);
   
   tiger.spinOnce();
   delay(inter_time);

@@ -3,6 +3,8 @@ import cv2
 import numpy as np
 import rospy
 from std_msgs.msg import String
+ 
+color = None
 
 def green(a):
     vis=cv2.cvtColor(a,cv2.COLOR_BGR2HSV)
@@ -49,6 +51,11 @@ def red(a):
     mask_red_op=cv2.morphologyEx(mask_red, cv2.MORPH_OPEN, kernel)
     return mask_red_op
 
+def color_callback(msg):
+    global color 
+    color = msg.data
+    
+
 
 def takepic():
     rospy.init_node("webcame" ,anonymous = True)
@@ -57,9 +64,22 @@ def takepic():
     cY=0
     cap=cv2.VideoCapture(0)
     while not rospy.is_shutdown():
-        
+        global color
+        if color == "Green":
+            _, cnts, _ = cv2.findContours(green(vid), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        elif color == "Yellow":
+            _, cnts, _ = cv2.findContours(yellow(vid), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        elif color == "Purple":
+            _, cnts, _ = cv2.findContours(orange(vid), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)   ##orange or purple ?????
+        elif color == "Blue":
+            _, cnts, _ = cv2.findContours(blue(vid), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        elif color == "red":
+            _, cnts, _ = cv2.findContours(red(vid), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        else:
+            continue
         ret, img = cap.read()
         vid=img.copy()
+
         _, cnts, _ = cv2.findContours(yellow(vid), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         contours_ball = cv2.drawContours(vid, cnts, -1,(0,0,255),5)
         area=0
@@ -76,13 +96,15 @@ def takepic():
         image_info = str(cX) + "," + str(cY) + "," + str(int(dis))
        
         cam = rospy.Publisher("image" , String ,queue_size = 10)
+        rospy.Subscriber("color", String, color_callback)
         cam.publish(image_info)
-        
+
+        rospy.spin()
         rate.sleep()
     cap.release()
 if __name__ == '__main__':
     try:
         takepic()
     except rospy.ROSInterruptException:
-        pass
+        print("webcame.py has trouble!!!!!!!!1")
 

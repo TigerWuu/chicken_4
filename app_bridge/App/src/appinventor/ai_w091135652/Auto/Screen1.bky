@@ -1,0 +1,120 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="component_event" id="b=#bozlblcIrNCHQ-y%/" x="-492" y="-764">
+    <mutation component_type="Button" is_generic="false" instance_name="按鈕1" event_name="Click"></mutation>
+    <field name="COMPONENT_SELECTOR">按鈕1</field>
+    <statement name="DO">
+      <block type="component_set_get" id="d6m/LorO~W}E$ts}y/1z">
+        <mutation component_type="Web" set_or_get="set" property_name="Url" is_generic="false" instance_name="網路1"></mutation>
+        <field name="COMPONENT_SELECTOR">網路1</field>
+        <field name="PROP">Url</field>
+        <value name="VALUE">
+          <block type="text_join" id="ti7Wq9gfp4sQ}c(rvF!|">
+            <mutation items="5"></mutation>
+            <value name="ADD0">
+              <block type="text" id="G,YRfKgLB==G*y!hHKEF">
+                <field name="TEXT">http://192.168.43.34/ball.php</field>
+              </block>
+            </value>
+            <value name="ADD1">
+              <block type="text" id=".mt+hENHqV8r{7+nRTi,">
+                <field name="TEXT">?BALL=</field>
+              </block>
+            </value>
+            <value name="ADD2">
+              <block type="component_method" id="$NJ%jKJ{Ym40Zf4^{NE$">
+                <mutation component_type="Web" method_name="UriEncode" is_generic="false" instance_name="網路1"></mutation>
+                <field name="COMPONENT_SELECTOR">網路1</field>
+                <value name="ARG0">
+                  <block type="component_set_get" id="3bcwgL35d])?.e.zjWDn">
+                    <mutation component_type="Spinner" set_or_get="get" property_name="Selection" is_generic="false" instance_name="下拉式選單1"></mutation>
+                    <field name="COMPONENT_SELECTOR">下拉式選單1</field>
+                    <field name="PROP">Selection</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <value name="ADD3">
+              <block type="text" id="DGGeM8vgbU{9u3_j40:i">
+                <field name="TEXT">&amp;CLIENT=</field>
+              </block>
+            </value>
+            <value name="ADD4">
+              <block type="component_method" id="dbnzu?+EjLjMXf+g9B9!">
+                <mutation component_type="Web" method_name="UriEncode" is_generic="false" instance_name="網路1"></mutation>
+                <field name="COMPONENT_SELECTOR">網路1</field>
+                <value name="ARG0">
+                  <block type="component_set_get" id="Oj%_v;yZ%hlM^YTU^b+*">
+                    <mutation component_type="Spinner" set_or_get="get" property_name="Selection" is_generic="false" instance_name="下拉式選單2"></mutation>
+                    <field name="COMPONENT_SELECTOR">下拉式選單2</field>
+                    <field name="PROP">Selection</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+          </block>
+        </value>
+        <next>
+          <block type="component_method" id="B~U2`/I5,bRZn4plGd3#">
+            <mutation component_type="Web" method_name="Get" is_generic="false" instance_name="網路1"></mutation>
+            <field name="COMPONENT_SELECTOR">網路1</field>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+  <block type="component_event" id=";tP9,Px57~rNA[w!ZMRh" x="-490" y="-490">
+    <mutation component_type="Web" is_generic="false" instance_name="網路1" event_name="GotText"></mutation>
+    <field name="COMPONENT_SELECTOR">網路1</field>
+    <statement name="DO">
+      <block type="controls_if" id="P[NC?l6jw/tD)Fpo}u,y">
+        <mutation else="1"></mutation>
+        <value name="IF0">
+          <block type="math_compare" id="8;H7,p_SGI|;wtEGrAhM">
+            <field name="OP">EQ</field>
+            <value name="A">
+              <block type="lexical_variable_get" id="Bdtk$$/?90=~pc],d)Wj">
+                <mutation>
+                  <eventparam name="responseCode"></eventparam>
+                </mutation>
+                <field name="VAR">responseCode</field>
+              </block>
+            </value>
+            <value name="B">
+              <block type="math_number" id="]RCGA+H/=tfd|Luw*#$5">
+                <field name="NUM">200</field>
+              </block>
+            </value>
+          </block>
+        </value>
+        <statement name="DO0">
+          <block type="component_set_get" id="(PxPxo|ApfeP}{!Wsfz7">
+            <mutation component_type="Label" set_or_get="set" property_name="Text" is_generic="false" instance_name="標籤4"></mutation>
+            <field name="COMPONENT_SELECTOR">標籤4</field>
+            <field name="PROP">Text</field>
+            <value name="VALUE">
+              <block type="lexical_variable_get" id="R[Ly?pd~P#@bab)29b=7">
+                <mutation>
+                  <eventparam name="responseContent"></eventparam>
+                </mutation>
+                <field name="VAR">responseContent</field>
+              </block>
+            </value>
+          </block>
+        </statement>
+        <statement name="ELSE">
+          <block type="component_set_get" id="=_Xm07{B8y_Gb/[?SP2|">
+            <mutation component_type="Label" set_or_get="set" property_name="Text" is_generic="false" instance_name="標籤4"></mutation>
+            <field name="COMPONENT_SELECTOR">標籤4</field>
+            <field name="PROP">Text</field>
+            <value name="VALUE">
+              <block type="text" id="m!F}3tsGgQ(s.c*~}ej%">
+                <field name="TEXT">Error</field>
+              </block>
+            </value>
+          </block>
+        </statement>
+      </block>
+    </statement>
+  </block>
+  <yacodeblocks ya-version="208" language-version="33"></yacodeblocks>
+</xml>
