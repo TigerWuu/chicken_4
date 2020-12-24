@@ -1,12 +1,23 @@
 #!/usr/bin/env python
 
-import serial
+import rospy
+from std_msgs.msg import String
 
-COM_PORT = '/dev/ttyACM0'  
-BAUD_RATES = 9600
+CMD="000,000,0,0000000000"
 
-ser = serial.Serial(COM_PORT, BAUD_RATES)
+def stopper():
+    pub = rospy.Publisher('arduino_msg', String, queue_size=10)
+    rospy.init_node('stopper', anonymous=True)
+    rate = rospy.Rate(10) # 10hz
+    while not rospy.is_shutdown():
+
+        pub.publish(CMD)
+        rate.sleep()
 
 
-cmdd="000,000,0,0000000000".encode()
-ser.write(cmdd)
+
+if __name__ == '__main__':
+    try:
+        stopper()
+    except rospy.ROSInterruptException:
+        pass
