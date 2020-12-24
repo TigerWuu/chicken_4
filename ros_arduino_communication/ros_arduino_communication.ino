@@ -21,8 +21,7 @@ std_msgs::Float32 str_msg;
 String str;
 int cmd[3] = {0};
 
-ros::Publisher chatter("chatter_tiger", &str_msg);
-ros::Subscriber<std_msgs::String> sub("arduino_msg", &message_callback);
+
 
 
 void up(){
@@ -42,7 +41,7 @@ void down(){
 
 
 void message_callback( const std_msgs::String& arduino_msg){
-    str = arduino_msg->data.c_str();
+    str = arduino_msg.data;
     const char* d = ",";   //分割依據 
     char *p;  //儲存每次分割結果 
     char buf[100];
@@ -67,6 +66,9 @@ void message_callback( const std_msgs::String& arduino_msg){
       up();
     }
 }
+
+ros::Publisher chatter("chatter_tiger", &str_msg);
+ros::Subscriber<std_msgs::String> sub("arduino_msg", &message_callback);
 
 void setup()
 {
