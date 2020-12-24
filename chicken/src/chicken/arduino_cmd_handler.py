@@ -17,19 +17,17 @@ def car_move(msg):
         CMD="100,100,0,0000000000"
         
     pub.publish(CMD)
-        
 
-def arm_move(msg):
-    global CMD
-    CMD[8]=msg.data
+
+def remote_cmd(msg):
+    CMD=msg.data
     pub.publish(CMD)
 
 
 if __name__ == "__main__":
     rospy.init_node('arduino_cmd_handler', anonymous=True)
     rospy.Subscriber("car_info" , String , car_move)
-    #rospy.Subscriber("encoder" , String , car_move)
-
+    rospy.Subscriber("joy_information" , String , remote_cmd)
     pub = rospy.Publisher('arduino_msg', String, queue_size=10)
     
     rospy.spin()
