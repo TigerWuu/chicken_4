@@ -89,14 +89,19 @@ def takepic():
             cX = int(M["m10"] / M["m00"])
             cY = int(M["m01"] / M["m00"])
             cent=cv2.circle(vid, (cX, cY), 10, (1, 227, 254), -1)
-            #cv2.imshow("cent", cent)
+
             area=cv2.contourArea(c)
         dis=(area**0.5-468)/(-10.5)
         
         image_info = str(cX) + "," + str(cY) + "," + str(int(dis))
        
+<<<<<<< HEAD
         cam = rospy.Publisher("image" , String ,queue_size = 10)
         rospy.Subscriber("color", String, color_callback)
+=======
+       
+        cam = rospy.Publisher("image_info" , String ,queue_size = 10)
+>>>>>>> ae30f0093a2c091df08c41bd69d8387038acf741
         cam.publish(image_info)
 
         rospy.spin()
