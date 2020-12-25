@@ -30,22 +30,21 @@ def joy_remapping(msg):
     	left=LR
     	right=0
     else:
-   	left=0
-   	right=-LR
+   	    left=0
+    	right=-LR
+
     if UD>0:
         up=UD
-   	down=0
-    else:
-   	up=0
-   	down=-UD
-    spin=X
-    front=A
-    behind=B
-    rcm_en=LB
-    ee_en=RB
-    STOP=start
-    
-    cmd = "%03d*%03d*%03d*%03d*%01d*%01d*%01d*%01d*%01d*%01d*%021d" % (up,down,left,right,front,behind,spin,rcm_en,ee_en,STOP,0)        
+        if left > 0:
+            R_v = up
+            L_v = left
+        else:
+            R_v = right
+            L_v = up 
+        cmd = str(L_v) +","+ str(R_v) + ",0,0000000000"
+    else :
+        cmd = "000,000,0,0000000000"
+
     pub_joy.publish(cmd)
     print cmd
     rate.sleep()
