@@ -6,10 +6,10 @@ $color1 = $_GET["CLIENT"];
 $client = $color1 
 
 
-function callpy($arg) {
-            $command= exec("python3 app_color.py $arg");
+function callpy($arg1 , $arg2) {
+           $command= exec("python3 app_color.py $arg1 $arg2");
            return $command ;
         }
-$command= callpy($ball);
+$command= callpy($ball , $client);
 echo "ball：".$ball."\n"."client：".$client."\n".$command;
 ?>

@@ -36,10 +36,11 @@
 
             echo "$ball"." "."$home".'<br>';
             
-            if( isset($ball) && isset($home)){
-                $output = exec('python test.py');
-                echo $output;
-            }
+	    if( isset($ball) && isset($home)){
+		    $output = exec('export PYTHONPATH=$PYTHONPATH:/opt/ros/melodic/lib/python2.7/dist-packages && python3 app_color.py '.$ball." ".$home , $out ,$retval);
+		    echo "$output". '<br>' ;
+		    #echo "$out". '<br>' ;
+	    }
             
         ?>
     </body>
