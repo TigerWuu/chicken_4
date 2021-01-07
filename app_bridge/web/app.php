@@ -43,7 +43,7 @@ $client = "Green";
 }
 
 function callpy($arg1 , $arg2) {
-           $command= exec('export PYTHONPATH=$PYTHONPATH:/opt/ros/melodic/lib/python2.7/dist-packages && python3 app_color.py '.$arg1.' '.$arg2);
+           $command= exec("./phpexecthis.sh $ball $home");
            return $command ;
         }
 $command= callpy($ball , $client);
