@@ -36,7 +36,7 @@ std_msgs::String str_msg_mode;
 String str;
 int cmd[3] = {0};
 
-void up() {
+void down() {
   for (int i = bef; i >= bef - 70; i = i - 1) {
     myservo.write(i);
     delay(10);
@@ -44,7 +44,7 @@ void up() {
   }
 }
 
-void down() {
+void up() {
   for (int i = aft; i <= aft + 70; i = i + 1) {
     myservo.write(i);
     delay(10);
