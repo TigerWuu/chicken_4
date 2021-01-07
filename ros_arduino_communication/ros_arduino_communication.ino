@@ -17,16 +17,21 @@ const int echo_l = 10;
 const int trig_r = 11;
 const int echo_r = 12;
 
-const int trig_m = A1;
-const int echo_m = A2;
+const int trig_m = A0;
+const int echo_m = A1;
+
+const int trig_ul = A2;
+const int echo_ul = A3;
+
+const int trig_ur = A4;
+const int echo_ur = A5;
 
 const int inter_time = 50;
 float ultrasound(int in , int out);
 
 ros::NodeHandle tiger;
-std_msgs::Float32 str_msg_l;
-std_msgs::Float32 str_msg_r;
-std_msgs::Float32 str_msg_m;
+std_msgs::Float32 str_msg_l , str_msg_r , str_msg_m , str_msg_ul , str_msg_ur;
+std_msgs::String str_msg_mode;
 
 String str;
 int cmd[3] = {0};
@@ -75,6 +80,17 @@ void toMotor(int l, int r) {
 
 }
 
+
+
+ros::Publisher pub_l("ultrasound_info_l", &str_msg_l);
+ros::Publisher pub_r("ultrasound_info_r", &str_msg_r);
+ros::Publisher pub_m("ultrasound_info_m", &str_msg_m);
+ros::Publisher pub_ul("ultrasound_info_ul", &str_msg_ul);
+ros::Publisher pub_ur("ultrasound_info_ur", &str_msg_ur);
+
+ros::Publisher pub_mode("mode", &str_msg_mode);
+ros::Subscriber<std_msgs::String> sub("arduino_msg", &message_callback);
+
 void message_callback( const std_msgs::String& arduino_msg) {
   str = arduino_msg.data;
   const char* d = ",";   //分割依據
@@ -94,13 +110,9 @@ void message_callback( const std_msgs::String& arduino_msg) {
     digitalWrite(13, 1);    // suck forever
     down();
     up();
+    pub_mode.publish(&str_msg_mode);
   }
 }
-
-ros::Publisher pub_l("ultrasound_info_l", &str_msg_l);
-ros::Publisher pub_r("ultrasound_info_r", &str_msg_r);
-ros::Publisher pub_m("ultrasound_info_m", &str_msg_m);
-ros::Subscriber<std_msgs::String> sub("arduino_msg", &message_callback);
 
 void setup()
 {
@@ -108,6 +120,9 @@ void setup()
   tiger.advertise(pub_l);
   tiger.advertise(pub_r);
   tiger.advertise(pub_m);
+  tiger.advertise(pub_ul);
+  tiger.advertise(pub_ur);
+  tiger.advertise(pub_mode);
   tiger.subscribe(sub);
 
   //servo setup
@@ -136,9 +151,14 @@ void loop()
   str_msg_l.data = ultrasound(trig_l , echo_l);
   str_msg_r.data = ultrasound(trig_r , echo_r);
   str_msg_m.data = ultrasound(trig_m , echo_m);
+  str_msg_ul.data = ultrasound(trig_ul , echo_ul);
+  str_msg_ur.data = ultrasound(trig_ur , echo_ur);
+  
   pub_l.publish(&str_msg_l);
   pub_r.publish(&str_msg_r);
   pub_m.publish(&str_msg_m);
+  pub_r.publish(&str_msg_ul);
+  pub_m.publish(&str_msg_ur);
 
   tiger.spinOnce();
   delay(inter_time);

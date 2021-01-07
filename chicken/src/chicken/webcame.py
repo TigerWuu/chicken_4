@@ -4,7 +4,9 @@ import numpy as np
 import rospy
 from std_msgs.msg import String
  
-color = None
+ball = None
+home = None
+mode = "ball"
 
 def green(a):
     vis=cv2.cvtColor(a,cv2.COLOR_BGR2HSV)
@@ -51,11 +53,17 @@ def red(a):
     mask_red_op=cv2.morphologyEx(mask_red, cv2.MORPH_OPEN, kernel)
     return mask_red_op
 
-def color_callback(msg):
-    global color 
-    color = msg.data
-    
+def ball_color(msg):
+    global ball 
+    ball = msg.data
 
+def home_color(msg):
+    global home 
+    home = msg.data
+    
+def mode_get(msg):
+    global mode
+    mode = msg.data
 
 def takepic():
     rospy.init_node("webcame" ,anonymous = True)
@@ -64,7 +72,13 @@ def takepic():
     cY=0
     cap=cv2.VideoCapture(0)
     while not rospy.is_shutdown():
-        global color
+        global ball,home,mode
+        
+        if mode == "ball":
+            color = ball
+        else:
+            color = home
+
         if color == "Green":
             _, cnts, _ = cv2.findContours(green(vid), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         elif color == "Yellow":
@@ -91,17 +105,14 @@ def takepic():
             cent=cv2.circle(vid, (cX, cY), 10, (1, 227, 254), -1)
 
             area=cv2.contourArea(c)
-        dis=(area**0.5-468)/(-10.5)
         
-        image_info = str(cX) + "," + str(cY) + "," + str(int(dis))
+        image_info = str(cX) + "," + str(cY) + "," + str(int(area))
        
-<<<<<<< HEAD
         cam = rospy.Publisher("image" , String ,queue_size = 10)
-        rospy.Subscriber("color", String, color_callback)
-=======
-       
-        cam = rospy.Publisher("image_info" , String ,queue_size = 10)
->>>>>>> ae30f0093a2c091df08c41bd69d8387038acf741
+        rospy.Subscriber("ball_color", String, ball_color)
+        rospy.Subscriber("home_color", String, home_color)
+        rospy.Subscriber("mode", String, mode_get)
+
         cam.publish(image_info)
 
         rospy.spin()
