@@ -39,7 +39,8 @@
 	    if( isset($ball) && isset($home)){
 		    $output = exec('export PYTHONPATH=$PYTHONPATH:/opt/ros/kinetic/lib/python2.7/dist-packages && python3 app_color.py '.$ball." ".$home , $out ,$retval);
 		    echo "$output". '<br>' ;
-		    #echo "$out". '<br>' ;
+		    echo "$out". '<br>' ;
+		    echo "$retval";
 	    }
             
         ?>
