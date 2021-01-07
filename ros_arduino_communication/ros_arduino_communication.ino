@@ -21,9 +21,9 @@ const int trig_m = A0;
 const int echo_m = A1;
 
 const int trig_ul = A2;
-const int echo_ul = A3;
+const int echo_ul = A4;
 
-const int trig_ur = A4;
+const int trig_ur = A3;
 const int echo_ur = A5;
 
 const int inter_time = 50;
