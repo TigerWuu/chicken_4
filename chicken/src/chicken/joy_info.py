@@ -11,7 +11,7 @@ diff = 1       #1~9
 
 other_mode = 0
 
-HZ=4
+HZ=60
 
 
 def joy_remapping(msg):
@@ -19,32 +19,15 @@ def joy_remapping(msg):
     buttons = msg.buttons
     axes = msg.axes
     axes = map(lambda x:int(x*100),axes)  
-    LR,UD,_,_,_,_ = axes 
+    _,L_UD,_,R_UD,_,_ = axes 
     X,A,B,Y,LB,RB,_,_,back,start,_,_=buttons       
     if back == 1:        ## press back to shutdown
     	p = os.popen('shutdown now')
     
     rate = rospy.Rate(HZ)
-    
-    if LR>0:
-    	left=LR
-    	right=0
-    else:
-   	    left=0
-    	right=-LR
 
-    if UD>0:
-        up=UD
-        if left > 0:
-            R_v = up
-            L_v = left
-        else:
-            R_v = right
-            L_v = up 
-        cmd = str(L_v) +","+ str(R_v) + ",0,0000000000"
-    else :
-        cmd = "000,000,0,0000000000"
 
+    cmd = str(L_UD) +","+ str(R_UD) + ","+str(X)+",0000000000"
     pub_joy.publish(cmd)
     print cmd
     rate.sleep()
