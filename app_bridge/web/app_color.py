@@ -6,7 +6,7 @@ from std_msgs.msg import String
 def send_color(ball_color , home_color):
     pub_ball = rospy.Publisher("ball_color" , String , queue_size = 10)
     pub_home = rospy.Publisher("home_color" , String , queue_size = 10)
-    rospy.init_node("app" , anonymous = True)
+    rospy.init_node("app")
     rate = rospy.Rate(10)
     while not rospy.is_shutdown():
         color_choice = str(ball_color)

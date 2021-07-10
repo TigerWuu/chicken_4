@@ -35,7 +35,7 @@ def joy_remapping(msg):
 
  
 if __name__ == '__main__':
-    rospy.init_node('joy_lai')
+    rospy.init_node('joys')
     pub_joy = rospy.Publisher('joy_information', String, queue_size=1)
     rospy.Subscriber("/joy", Joy, joy_remapping, queue_size = 1, buff_size = 52428800)
     rospy.spin()

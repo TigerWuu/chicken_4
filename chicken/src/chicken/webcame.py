@@ -66,47 +66,49 @@ def mode_get(msg):
     mode = msg.data
 
 def takepic():
-    rospy.init_node("webcame" ,anonymous = True)
+    rospy.init_node("webcame")
     rate = rospy.Rate(10)
     cX=0
     cY=0
-    cap=cv2.VideoCapture(0)
+    # cap=cv2.VideoCapture(0)
+  
     while not rospy.is_shutdown():
         global ball,home,mode
         
-        if mode == "ball":
-            color = ball
-        else:
-            color = home
+        # if mode == "ball":
+        #     color = ball
+        # else:
+        #     color = home
 
-        if color == "Green":
-            _, cnts, _ = cv2.findContours(green(vid), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        elif color == "Yellow":
-            _, cnts, _ = cv2.findContours(yellow(vid), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        elif color == "Purple":
-            _, cnts, _ = cv2.findContours(orange(vid), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)   ##orange or purple ?????
-        elif color == "Blue":
-            _, cnts, _ = cv2.findContours(blue(vid), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        elif color == "red":
-            _, cnts, _ = cv2.findContours(red(vid), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        else:
-            continue
-        ret, img = cap.read()
-        vid=img.copy()
+        # if color == "Green":
+        #     _, cnts, _ = cv2.findContours(green(vid), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        # elif color == "Yellow":
+        #     _, cnts, _ = cv2.findContours(yellow(vid), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        # elif color == "Purple":
+        #     _, cnts, _ = cv2.findContours(orange(vid), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)   ##orange or purple ?????
+        # elif color == "Blue":
+        #     _, cnts, _ = cv2.findContours(blue(vid), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        # elif color == "red":
+        #     _, cnts, _ = cv2.findContours(red(vid), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        # else:
+        #     continue
+        # ret, img = cap.read()
+        # vid=img.copy()
 
-        _, cnts, _ = cv2.findContours(yellow(vid), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        contours_ball = cv2.drawContours(vid, cnts, -1,(0,0,255),5)
-        area=0
+        # _, cnts, _ = cv2.findContours(yellow(vid), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        # contours_ball = cv2.drawContours(vid, cnts, -1,(0,0,255),5)
+        # area=0
         
-        for c in cnts:
-            M = cv2.moments(c)
-            cX = int(M["m10"] / M["m00"])
-            cY = int(M["m01"] / M["m00"])
-            cent=cv2.circle(vid, (cX, cY), 10, (1, 227, 254), -1)
+        # for c in cnts:
+        #     M = cv2.moments(c)
+        #     cX = int(M["m10"] / M["m00"])
+        #     cY = int(M["m01"] / M["m00"])
+        #     cent=cv2.circle(vid, (cX, cY), 10, (1, 227, 254), -1)
 
-            area=cv2.contourArea(c)
+        #     area=cv2.contourArea(c)
         
-        image_info = str(cX) + "," + str(cY) + "," + str(int(area))
+        # image_info = str(cX) + "," + str(cY) + "," + str(int(area))
+        image_info = "100,100,1000"
        
         cam = rospy.Publisher("image" , String ,queue_size = 10)
         rospy.Subscriber("ball_color", String, ball_color)

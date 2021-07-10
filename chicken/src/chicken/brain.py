@@ -14,39 +14,40 @@ center_dist = 0
 
 def action():
     global dis_l , dis_m , dis_r , dis_r , dis_r , center_dist ,mode
-    if mode == "ball":
-        if int(center_dist[2]) < 100:   # area < bias use the ultrasound info 
-            if dis_l < dis_r - 10:
-                orientation = "L"
-            elif dis_r < dis_l - 10:
-                orientation = "R"
-            elif dis_l < 5 and dis_r < 5:
-                orientation = "S"
-            else:
-                orientation = "F"
-        elif int(center_dist[0]) > 350:
-            orientation = "R"
-        elif int(center_dist[0]) < 290:
-            orientation = "L"
-        else:
-            orientation = "F"
-    else:
-        if int(center_dist[2]) > 100:  
-            orientation = "S"
-        elif int(center_dist[0]) > 350:
-            orientation = "R"
-        elif int(center_dist[0]) < 290:
-            orientation = "L"
-        else:
-            orientation = "F"
+    orientation = "F"
+    # if mode == "ball":
+    #     if int(center_dist[2]) < 100:   # area < bias use the ultrasound info 
+    #         if dis_l < dis_r - 10:
+    #             orientation = "L"
+    #         elif dis_r < dis_l - 10:
+    #             orientation = "R"
+    #         elif dis_l < 5 and dis_r < 5:
+    #             orientation = "S"
+    #         else:
+    #             orientation = "F"
+    #     elif int(center_dist[0]) > 350:
+    #         orientation = "R"
+    #     elif int(center_dist[0]) < 290:
+    #         orientation = "L"
+    #     else:
+    #         orientation = "F"
+    # else:
+    #     if int(center_dist[2]) > 100:  
+    #         orientation = "S"
+    #     elif int(center_dist[0]) > 350:
+    #         orientation = "R"
+    #     elif int(center_dist[0]) < 290:
+    #         orientation = "L"
+    #     else:
+    #         orientation = "F"
 
-        # avoid 
-        if dis_ul < dis_ur - 10:
-            avoid_action("R")
-        elif dis_ur < dis_ul - 10:
-            avoid_action("L")
-        else:
-            orientation = "F"
+    #     # avoid 
+    #     if dis_ul < dis_ur - 10:
+    #         avoid_action("R")
+    #     elif dis_ur < dis_ul - 10:
+    #         avoid_action("L")
+    #     else:
+    #         orientation = "F"
     Body.publish(orientation)
 
 def avoid_action(orient):
@@ -90,7 +91,7 @@ def mode_get(data):
 
 
 if __name__ == "__main__":
-    rospy.init_node("brain" ,anonymous = True)
+    rospy.init_node("brain")
     Body = rospy.Publisher("car_info" , String ,queue_size = 10)
 
     rospy.Subscriber("mode" , String , mode_get)
@@ -100,5 +101,6 @@ if __name__ == "__main__":
     rospy.Subscriber("ultrasound_info_m" , Float32 , ultrasound_get_m)
     rospy.Subscriber("ultrasound_info_ul" , Float32 , ultrasound_get_ul)
     rospy.Subscriber("ultrasound_info_ur" , Float32 , ultrasound_get_ur)
+
     while not rospy.is_shutdown():
         action()
